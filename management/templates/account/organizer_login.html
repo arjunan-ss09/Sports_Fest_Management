@@ -1,0 +1,18 @@
+{% extends "management/base.html" %}
+{% block content %}
+<div class="container" style="max-width: 400px; margin-top: 100px;">
+  <h2 class="text-center mb-4">Organizer Login</h2>
+  <form method="post" action="{% url 'organizer_login' %}">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="id_username" class="form-label">Username</label>
+      <input type="text" name="username" class="form-control" id="id_username" required>
+    </div>
+    <div class="mb-3">
+      <label for="id_password" class="form-label">Password</label>
+      <input type="password" name="password" class="form-control" id="id_password" required>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Log In</button>
+  </form>
+</div>
+{% endblock %}

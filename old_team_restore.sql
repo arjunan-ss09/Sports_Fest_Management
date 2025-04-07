@@ -1,0 +1,2 @@
+CREATE TABLE IF NOT EXISTS "old_team" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "college" varchar(200) NOT NULL, "gender" varchar(50) NOT NULL, "captain_id" bigint NULL REFERENCES "management_participantprofile" ("id") DEFERRABLE INITIALLY DEFERRED, "event_id" bigint NOT NULL REFERENCES "management_event" ("id") DEFERRABLE INITIALLY DEFERRED);
+INSERT INTO "old_team" VALUES(1,'BITS Pilani, Pilani Campus','',NULL,1);

@@ -1,0 +1,15 @@
+{% extends "management/base.html" %}
+{% block content %}
+  <h2>Available Events</h2>
+  <ul>
+    {% for event in events %}
+      <li>
+        <strong>{{ event.name }}</strong>
+        <a href="{% url 'join_event' event.id %}" class="btn btn-sm btn-primary">Join</a>
+      </li>
+    {% empty %}
+      <li>No events are currently available.</li>
+    {% endfor %}
+  </ul>
+  <p><a href="{% url 'participant_dashboard' %}">Back to Dashboard</a></p>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "management/base.html" %}
+{% load static %}
+{% load socialaccount %}
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+  <div class="text-center">
+    <h2 class="mb-4">Sign in as Participant</h2>
+    <a href="{% provider_login_url 'google' process='login' %}" class="btn btn-lg btn-outline-danger">
+      <img src="{% static 'management/images/google-logo.png' %}" alt="Google Logo" style="height: 24px; margin-right: 8px;">
+      Sign in with Google
+    </a>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Match Schedule</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>My Match Schedule</h2>
+    <a href="{% url 'participant_dashboard' %}" class="btn btn-secondary mb-3">Back to Dashboard</a>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Event</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Teams</th>
+                <th>Results</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for match in matches %}
+                <tr>
+                    <td>{{ match.event.name }}</td>
+                    <td>{{ match.start_time|date:"Y-m-d H:i" }}</td>
+                    <td>{{ match.end_time|date:"Y-m-d H:i" }}</td>
+                    <td>
+                        <ul>
+                            {% for team in match.teams.all %}
+                                <li>{{ team.college }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        {% if match.finished %}
+                          {% if match.scores.result %}
+                            {{ match.scores.result }}
+                          {% else %}
+                            {{ match.scores }}
+                          {% endif %}
+                        {% else %}
+                          <em>Pending</em>
+                        {% endif %}
+                      </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No upcoming matches found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

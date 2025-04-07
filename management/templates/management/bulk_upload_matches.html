@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bulk Upload Matches</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Bulk Upload Matches</h2>
+    <p>Please upload an Excel file (.xlsx) with the following columns:</p>
+    <ul>
+        <li>Event Name</li>
+        <li>Start Time (e.g., 2025-04-10 15:30)</li>
+        <li>End Time (e.g., 2025-04-10 17:00)</li>
+        <li>Team IDs (comma-separated)</li>
+    </ul>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="excel_file">Excel File</label>
+            <input type="file" name="excel_file" class="form-control" id="excel_file" accept=".xlsx">
+        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+        <a href="{% url 'organizer_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+    </form>
+</div>
+</body>
+</html>

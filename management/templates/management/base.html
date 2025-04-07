@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sports Fest Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Optional: add some custom styling */
+        .navbar-brand { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!-- Brand links to the respective dashboard based on user type -->
+        <a class="navbar-brand" href="{% if user.is_authenticated %}{% if user.is_staff %}{% url 'organizer_dashboard' %}{% else %}{% url 'participant_dashboard' %}{% endif %}{% else %}#{% endif %}">Sports Fest</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+             <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                        <!-- Organizer Navigation -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'organizer_dashboard' %}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'manage_matches' %}">Matches</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'view_feedback' %}">Feedbacks</a>
+                        </li> 
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'leaderboards' %}">Leaderboards</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'download_participants_csv' %}">Download Participants</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'view_results' %}">Results</a>
+                          </li>                     
+                    {% else %}
+                        <!-- Participant Navigation -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'participant_dashboard' %}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'list_events' %}">Events</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'participant_matches' %}">Matches</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'college_participants' %}">My College</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'leaderboards' %}">Leaderboards</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'submit_feedback' %}">Feedback</a>
+                        </li>
+                        
+                    {% endif %}
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/logout/">Logout</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% block content %}{% endblock %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

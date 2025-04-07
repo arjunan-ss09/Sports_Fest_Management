@@ -1,0 +1,42 @@
+from django.urls import path, include
+from . import views
+
+urlpatterns = [
+    # Participant URLs
+    path('', views.home, name='home'),
+    path('participant/login/', views.participant_login, name='participant_login'),
+    path('participant/register/', views.participant_register, name='participant_register'),
+    path('participant/dashboard/', views.participant_dashboard, name='participant_dashboard'),
+    path('participant/events/', views.list_events, name='list_events'),
+    path('participant/join_event/<int:event_id>/', views.join_event, name='join_event'),
+    path('participant/join-request/<int:request_id>/handle/', views.handle_join_request, name='handle_join_request'),
+    path('participant/team/<int:team_id>/',views.view_team,name='view_team'),
+    path('participant/college_participants/',views.college_participants,name='college_participants'),
+    path('participant/matches', views.participant_matches, name='participant_matches'),
+    path('participant/feedback/', views.submit_feedback, name='submit_feedback'),
+    path('participant/leaderboard/overall/', views.overall_leaderboard, name='overall_leaderboard'),
+    path('participant/leaderboard/sport/<str:sport>/', views.sport_leaderboard, name='sport_leaderboard'),
+    path('participant/leaderboards/', views.leaderboards, name='leaderboards'),
+    # Organizer URLs
+    path('organizer/login/', views.organizer_login, name='organizer_login'),
+    path('organizer/dashboard/', views.organizer_dashboard, name='organizer_dashboard'),
+    path('organizer/teams/', views.list_teams, name='list_teams'),
+    path('organizer/team/<int:team_id>/', views.view_team, name='view_team'),
+    path('organizer/colleges/', views.list_colleges, name='list_colleges'),
+    path('organizer/college/<int:college_id>/', views.view_college_participants, name='view_college_participants'),
+    path('organizer/college/<int:college_id>/events/', views.college_events_detail, name='college_events_detail'),
+    path('organizer/college/<int:college_id>/event/<int:event_id>/team/teamdetail', views.college_event_team, name='college_event_team'),
+    path('organizer/matches/', views.manage_matches, name='manage_matches'),
+    path('organizer/ajax-load-teams', views.ajax_load_teams, name='ajax_load_teams'),
+    path('organizer/matches/delete/<int:match_id>',views.delete_match, name='delete_match'),
+    path('organizer/matches/<int:match_id>/update-score/', views.update_score, name='update_score'),
+    path('organizer/feedback/', views.view_feedback, name='view_feedback'),
+    path('organizer/team/<int:team_id>/remove-player/<int:participant_id>/', views.remove_player, name='remove_player'),
+    path('organizer/ban-player/<int:participant_id>/', views.ban_player, name='ban_player'),
+    path('organizer/lift-ban/<int:participant_id>/', views.lift_ban, name='lift_ban'),
+    path('organizer/download/participants/', views.download_participants_csv, name='download_participants_csv'),
+    path('organizer/results/', views.view_results, name='view_results'),
+    path('organizer/download/results/', views.download_results_csv, name='download_results_csv'),
+    path('organizer/leaderboard/download/<str:leaderboard_type>/', views.download_leaderboard_excel, name='download_leaderboard_excel'),
+    path('organizer/leaderboard/download/<str:leaderboard_type>/<str:sport>/', views.download_leaderboard_excel, name='download_leaderboard_excel'),
+]

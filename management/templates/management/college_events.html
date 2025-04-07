@@ -1,0 +1,14 @@
+{% extends "management/base.html" %}
+{% block content %}
+<h2>College Events</h2>
+{% for college, events in college_events.items %}
+    <h3>{{ college.name }}</h3>
+    <ul>
+        {% for event in events %}
+        <li>{{ event.name }} ({{ event.sport }}, {{ event.gender }})</li>
+        {% empty %}
+        <li>No events found for this college.</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+{% endblock %}

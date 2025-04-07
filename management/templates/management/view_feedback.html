@@ -1,0 +1,30 @@
+{% extends "management/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4 text-center">Feedback from Participants</h2>
+  <div class="row">
+    {% for feedback in feedbacks %}
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-info text-white">
+            <strong>{{ feedback.participant.name }}</strong>
+            <small class="float-end">{{ feedback.created_at|date:"M d, Y h:i A" }}</small>
+          </div>
+          <div class="card-body">
+            <p>{{ feedback.message }}</p>
+            {% if feedback.image %}
+              <img src="{{ feedback.image.url }}" alt="Feedback Image" class="img-fluid rounded">
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-center">No feedback submitted yet.</p>
+    {% endfor %}
+  </div>
+  <div class="text-center">
+    <a href="{% url 'organizer_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+  </div>
+</div>
+{% endblock %}

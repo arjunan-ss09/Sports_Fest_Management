@@ -1,0 +1,33 @@
+{% extends "management/base.html" %}
+{% block content %}
+<h2 class="mb-4">Events for <span class="text-primary">{{ college.name }}</span></h2>
+
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>Event Name</th>
+      <th>Sport</th>
+      <th>Gender</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for event in events %}
+    <tr>
+      <td>{{ event.name }}</td>
+      <td>{{ event.sport }}</td>
+      <td>{{ event.gender }}</td>
+      <td>
+        <a href="{% url 'college_event_team' college.id event.id %}" class="btn btn-info btn-sm">View Team</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="4" class="text-center text-muted">No events found for this college.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="{% url 'organizer_dashboard' %}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+{% endblock %}

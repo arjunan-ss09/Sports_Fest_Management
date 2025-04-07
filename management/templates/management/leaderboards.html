@@ -1,0 +1,23 @@
+{% extends "management/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Leaderboards</h2>
+
+  <div class="row justify-content-center mb-5">
+    <div class="col-md-4 text-center">
+      <a href="{% url 'overall_leaderboard' %}" class="btn btn-lg btn-outline-primary w-100 mb-2">
+        Overall Leaderboard
+      </a>
+    </div>
+    {% for sport in sports %}
+    <div class="col-md-4 text-center">
+      <a href="{% url 'sport_leaderboard' sport %}" class="btn btn-lg btn-outline-secondary w-100 mb-2">
+        {{ sport }} Leaderboard
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

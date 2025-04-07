@@ -1,0 +1,13 @@
+{% comment %} teams_options.html {% endcomment %}
+{% for team in teams %}
+  <div class="form-check">
+    <input type="checkbox" class="form-check-input" name="teams" id="team_{{ team.id }}" value="{{ team.id }}">
+    <label for="team_{{ team.id }}" class="form-check-label">
+      {{ team.college }}
+    </label>
+  </div>
+{% endfor %}
+
+{% if not teams %}
+  <p>No teams found for this event.</p>
+{% endif %}

@@ -1,0 +1,7 @@
+<h2>{{ team.name }} Players</h2>
+<ul>
+    {% for player in players %}
+        <li>{{ player.name }} - {{ player.position }}</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'list_teams' %}">Back to Teams</a>
