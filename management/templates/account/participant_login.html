@@ -4,13 +4,14 @@
 
 {% block content %}
 <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
-  <div class="text-center">
-    <h2 class="mb-4">Sign in as Participant</h2>
-    <a href="{% provider_login_url 'google' process='login' %}" class="btn btn-lg btn-outline-danger">
-      <img src="{% static 'management/images/google-logo.png' %}" alt="Google Logo" style="height: 24px; margin-right: 8px;">
-      Sign in with Google
-    </a>
+  <div class="card shadow p-5 rounded-4" style="max-width: 400px; width: 100%;">
+    <div class="text-center">
+      <h2 class="mb-4 fw-semibold">Sign in as Participant</h2>
+      <a href="{% provider_login_url 'google' process='login' %}">
+        <img src="{% static 'management/images/button.png' %}" alt="Sign in with Google" class="img-fluid" 
+        style="max-width: 300px; height: auto; display: block; margin: 0 auto;">
+      </a>
+    </div>
   </div>
 </div>
-
 {% endblock %}

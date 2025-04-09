@@ -59,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'management.middleware.banned_middleware.BannedUserMiddleware',
 ]
 
 ROOT_URLCONF = 'sportsfest.urls'
@@ -187,3 +188,5 @@ LOGGING = {
         },
     },
 }
+SOCIALACCOUNT_LOGIN_ON_GET=True
+ACCOUNT_LOGOUT_ON_GET=True

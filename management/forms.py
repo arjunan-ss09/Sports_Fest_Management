@@ -1,14 +1,46 @@
 from django import forms
-from .models import Match, Event, Team, ParticipantProfile, Feedback
-
+import re
+import datetime
+from .models import Match, College, Event, Team, ParticipantProfile, Feedback
 class ParticipantRegistrationForm(forms.ModelForm):
-    college = forms.CharField(max_length=255, required=True, label="College")
+    college = forms.ModelChoiceField(
+        queryset=College.objects.all(),
+        required=True,
+        label="College",
+        widget=forms.Select(attrs={'class': 'college-dropdown'})
+    )
+    
     class Meta:
         model = ParticipantProfile
-        fields = ['name', 'gender', 'date_of_birth', 'mobile_number', 'email',]
+        fields = ['name', 'gender', 'date_of_birth', 'mobile_number', 'email']
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
         }
+
+    def clean_mobile_number(self):
+        mobile_number = self.cleaned_data.get('mobile_number')
+        if not mobile_number.isdigit():
+            raise forms.ValidationError("Mobile number must contain only digits.")
+        if len(mobile_number) != 10:
+            raise forms.ValidationError("Mobile number must be exactly 10 digits long.")
+        return mobile_number
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        email_regex = r"(^[\w\.\+\-]+@[\w\-]+\.[a-zA-Z]{2,}$)"
+        if not re.match(email_regex, email):
+            raise forms.ValidationError("Enter a valid email address.")
+        return email
+
+    def clean_date_of_birth(self):
+        dob = self.cleaned_data.get('date_of_birth')
+        if not dob:
+            return dob
+        today = datetime.date.today()
+        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+        if age < 16:
+            raise forms.ValidationError("You must be at least 16 years old to register.")
+        return dob
 SPORT_SCORE_FIELDS = {
     "Cricket": [
         ("team1_runs", "Team 1 Runs", forms.IntegerField(min_value=0, required=False)),

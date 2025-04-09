@@ -27,17 +27,22 @@ def participant_login(request):
         password = request.POST.get("password")
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            try:
-                profile = user.participantprofile
-                if profile.is_banned:
-                    messages.error(request, "You have been banned from participating in the fest. Kindly contact the organizers.")
-                    logout(request)
-                    return redirect('participant_login')
-            except ParticipantProfile.DoesNotExist:
-                pass
+            if request.user.is_staff:
+                messages.error(request, "Organizers must log in through the organizer portal.")
+                logout(request)
+                return redirect('home')
+            else:
+                try:
+                    profile = user.participantprofile
+                    if profile.is_banned:
+                        messages.error(request, "You have been banned from participating in the fest. Kindly contact the organizers.")
+                        logout(request)
+                        return redirect('participant_login')
+                except ParticipantProfile.DoesNotExist:
+                    pass
 
-            login(request, user)
-            return redirect('participant_dashboard')
+                login(request, user)
+                return redirect('participant_dashboard')
         else:
             messages.error(request, "Invalid username or password.")
     return render(request, 'account/participant_login.html')
@@ -226,7 +231,7 @@ def handle_join_request(request, request_id):
         action = request.POST.get('action')
         if action == 'approve':
             join_request.status = 'approved'
-            join_request.team.participants.add(join_request.participant)
+            join_request.team.members.add(join_request.participant)
             messages.success(request, f"{join_request.participant.name} has been added to the team.")
         elif action == 'reject':
             join_request.status = 'rejected'
@@ -381,9 +386,9 @@ def team_detail(request, team_id):
 @staff_member_required
 def organizer_dashboard(request):
     total_participants = ParticipantProfile.objects.filter(is_banned=False).count()
-    total_colleges = College.objects.exclude(name="Unknown College").count()
+    total_colleges = College.objects.filter(participants__isnull=False).exclude(name="Unknown College").distinct().count()
     participants = ParticipantProfile.objects.all()
-    colleges = College.objects.exclude(name="Unknown College")
+    colleges = College.objects.filter(participants__isnull=False).exclude(name="Unknown College").distinct()
     events = Event.objects.all()
     matches= Match.objects.all()
     search_query = request.GET.get('search', '')
